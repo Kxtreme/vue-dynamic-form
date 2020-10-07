@@ -1,19 +1,17 @@
 <template>
-    <div v-for="result in results"  :key=result">
-
-    </div>
-
+    <container :content="content"/>
 </template>
 <script>
+import container from './components/container.vue'
     export default {
         props: {
-            result: {
+            content: {
                 type: Array,
                 required: true
             }
         },
-        methods: {
-
+        components: {
+            container
         }
     }
 </script>
