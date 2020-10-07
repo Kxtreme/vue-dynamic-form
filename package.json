@@ -1,0 +1,27 @@
+{
+  "name": "vue-dynamic-form",
+  "version": "1.0.0",
+  "description": "A simple dynamic form builder with containers and inputs to allow the user to generate dynamic forms",
+  "main": "index.vue",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kxtreme/vue-dynamic-form.git"
+  },
+  "keywords": [
+    "form",
+    "dynamic",
+    "vue"
+  ],
+  "author": "Kxtreme",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Kxtreme/vue-dynamic-form/issues"
+  },
+  "homepage": "https://github.com/Kxtreme/vue-dynamic-form#readme",
+  "dependencies": {
+    "bootstrap": "^4.5.2"
+  }
+}
