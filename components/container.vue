@@ -5,11 +5,11 @@
                 <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)"/>
                 <text-input v-else-if="c.type=='textInput'" v-model="c.name" @selfDestroy="deleteFromContainer(c)"/>
             </div>
-            <span class="left-icons">
+            <span>
                 <a class="btn btn-default" @click="addContainer"><folder-plus-outline /></a>
                 <a class="btn btn-default" @click="addTextInput"><text-box-plus-outline /></a>
             </span>
-            <span class="right-icons">
+            <span class="align-right">
                 <a v-if="!isRoot" class="btn btn-light" @click="$emit('selfDestroy')"><delete class="light-button-content" /></a>
             </span>
         </div>

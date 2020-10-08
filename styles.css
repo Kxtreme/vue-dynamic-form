@@ -2,6 +2,10 @@
     color: #385d7a
 }
 
-.right-icons {
+.align-right {
     float: right;
+}
+
+.align-left {
+    float: left;
 }
