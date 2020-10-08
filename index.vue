@@ -1,5 +1,5 @@
 <template>
-    <container :content="content"/>
+    <container :content="content" :isRoot="true"/>
 </template>
 <script>
 require('bootstrap')

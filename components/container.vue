@@ -1,38 +1,58 @@
 <template>
     <div>
         <div class="alert alert-info">
-                <div v-for="c in content" :key="c.id">
-                    <container v-if="c.type=='container'" :content="c.content" k/>
-                </div>
-            <div class="icons">
-                <a class="btn btn-default" @click="addContainer">Add Container</a>
+            <div v-for="c in content" :key="c.id">
+                <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)"/>
             </div>
+            <span class="left-icons">
+                <a class="btn btn-default" @click="addContainer"><folder-plus-outline /></a>
+            </span>
+            <span class="right-icons">
+                <a v-if="!isRoot" class="btn btn-light" @click="$emit('selfDestroy')"><delete class="light-button-content" /></a>
+            </span>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        props: {
-            content: {
-                type: Array,
-                required: true
-            }
+import '../styles.css';
+import FolderPlusOutline from 'vue-material-design-icons/FolderPlusOutline.vue';
+import Delete from 'vue-material-design-icons/Delete.vue';
+export default {
+    props: {
+        content: {
+            type: Array,
+            required: true
         },
-        methods: {
-            generateRandomId() {
-                return Math.random().toString(36).substring(7)
-            },
-            addContainer() {
-                this.content.push({
-                    type: 'container',
-                    content: [],
-                    id: this.generateRandomId()
-                })
-            }
+        isRoot: {
+            type: Boolean,
+            default: false
         },
-        components: {
-            container: () => import('./container')
+    },
+    methods: {
+        generateRandomId() {
+            return Math.random().toString(36).substring(7)
+        },
+        addContainer() {
+            this.content.push({
+                type: 'container',
+                content: [],
+                id: this.generateRandomId()
+            })
+        },
+        deleteFromContainer(item) {
+            if( item.type == 'container' &&
+            item.content.length != 0 && !confirm("Are you sure?")) {
+                return
+            }
+
+            this.content.splice(this.content.indexOf(item), 1);
         }
+    },
+    components: {
+        FolderPlusOutline,
+        Delete,
+        container: () => import('./container')
     }
+}
 </script>
