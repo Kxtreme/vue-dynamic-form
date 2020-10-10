@@ -1,8 +1,23 @@
 <template>
     <div>
         <div class="alert alert-info">
+            <div class="form-row align-items-center" v-if="!isRoot">
+                <div class="col-auto">
+                    <div class="form-check mb-2">
+                        <input class="form-control form-control-sm" @input="updateProperties" v-model="properties.description" placeholder="Description">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox">
+                        <label class="form-check-label" v-model="properties.isRecursive">
+                            Recursive
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div v-for="c in content" :key="c.id">
-                <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)"/>
+                <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)" v-model="c.properties"/>
                 <text-input v-else-if="c.type=='textInput'" v-model="c.name" @selfDestroy="deleteFromContainer(c)"/>
             </div>
             <span>
@@ -33,7 +48,18 @@ export default {
             default: false
         },
     },
+    data() {
+        return {
+            properties: {
+                description: '',
+                isRecursive: false
+            }
+        };
+    },
     methods: {
+        updateProperties(){
+            this.$emit('input', this.properties)
+        },
         generateRandomId() {
             return Math.random().toString(36).substring(7)
         },
@@ -41,10 +67,10 @@ export default {
             this.content.push({
                 type: 'container',
                 content: [],
+                properties: {},
                 id: this.generateRandomId()
             })
         },
-
         addTextInput() {
             this.content.push({
                 type: 'textInput',
