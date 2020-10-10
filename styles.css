@@ -9,3 +9,6 @@
 .align-left {
     float: left;
 }
+.input-text-container {
+    padding-bottom: 50px;
+}
