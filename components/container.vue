@@ -19,10 +19,12 @@
             <div v-for="c in content" :key="c.id">
                 <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)" v-model="c.properties"/>
                 <text-input v-else-if="c.type=='textInput'" v-model="c.name" @selfDestroy="deleteFromContainer(c)"/>
+                <select-input v-else-if="c.type=='select'" :content="c.content" v-model="c.properties" @selfDestroy="deleteFromContainer(c)"/>
             </div>
             <span>
                 <a class="btn btn-default" @click="addContainer"><folder-plus-outline /></a>
                 <a class="btn btn-default" @click="addTextInput"><text-box-plus-outline /></a>
+                <a class="btn btn-default" @click="addSelect"><playlist-plus /></a>
             </span>
             <span class="align-right">
                 <a v-if="!isRoot" class="btn btn-light" @click="$emit('selfDestroy')"><delete class="light-button-content" /></a>
@@ -33,10 +35,13 @@
 
 <script>
 import '../styles.css';
+import Utils from '../utils.js';
 import FolderPlusOutline from 'vue-material-design-icons/FolderPlusOutline.vue';
 import TextBoxPlusOutline from 'vue-material-design-icons/TextBoxPlusOutline.vue';
+import PlaylistPlus from 'vue-material-design-icons/PlaylistPlus.vue';
 import Delete from 'vue-material-design-icons/Delete.vue';
 import TextInput from './textInput.vue';
+import SelectInput from './select.vue';
 export default {
     props: {
         content: {
@@ -60,15 +65,13 @@ export default {
         updateProperties(){
             this.$emit('input', this.properties)
         },
-        generateRandomId() {
-            return Math.random().toString(36).substring(7)
-        },
+
         addContainer() {
             this.content.push({
                 type: 'container',
                 content: [],
                 properties: {},
-                id: this.generateRandomId()
+                id: Utils.generateRandomId()
             })
         },
         addTextInput() {
@@ -77,7 +80,15 @@ export default {
                 content: {
                     name:''
                 },
-                id: this.generateRandomId()
+                id: Utils.generateRandomId()
+            })
+        },
+        addSelect() {
+            this.content.push({
+                type: 'select',
+                content: [],
+                properties: {},
+                id: Utils.generateRandomId()
             })
         },
         deleteFromContainer(item) {
@@ -93,8 +104,10 @@ export default {
         FolderPlusOutline,
         TextBoxPlusOutline,
         Delete,
+        PlaylistPlus,
         container: () => import('./container'),
-        TextInput
+        TextInput,
+        SelectInput
     }
 }
 </script>
