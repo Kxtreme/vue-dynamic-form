@@ -1,5 +1,5 @@
 <template>
-    <div class="input-text-container">
+    <div class="input-text-container alert alert-primary">
         <input class="form-control col-11 align-left" v-model="name" @input="updateName()" placeholder="Field name">
         <a class="btn align-right" @click="$emit('selfDestroy')"><minus-circle-outline /></a>
     </div>
