@@ -9,7 +9,7 @@
                 <a class="btn align-right col-1" @click="$emit('selfDestroy')"><delete-circle-outline /></a>
             </div>
             <div class="form-row" v-for="(c, index) in content">
-                <input class="form-control col-11" v-model="c.name" placeholder="Option name">
+                <input class="form-control col-11" v-model="c[selectedLanguage]" placeholder="Option name">
                 <a v-if="index==0" class="btn align-right col-1" @click="addOption"><plus-circle-outline /></a>
                 <a v-else="" class="btn align-right col-1" @click="deleteOption(c)"><minus-circle-outline /></a>
             </div>
@@ -24,6 +24,14 @@ import PlusCircleOutline from 'vue-material-design-icons/PlusCircleOutline.vue';
 import DeleteCircleOutline from 'vue-material-design-icons/DeleteCircleOutline.vue';
     export default {
         props: {
+            languages: {
+                type: Array,
+                required: true
+            },
+            selectedLanguage: {
+                type: String,
+                required: true
+            },
             content: {
                 type: Array,
                 required: true
@@ -38,10 +46,11 @@ import DeleteCircleOutline from 'vue-material-design-icons/DeleteCircleOutline.v
         },
         methods: {
             addOption() {
-                this.content.push({
-                    name: '',
-                    id: Utils.generateRandomId()
-                })
+
+                this.content.push(this.languages.reduce((acc, cur) => {
+                    acc[cur] = ''
+                    return acc;
+                }, {}))
             },
             deleteOption(item) {
                 this.content.splice(this.content.indexOf(item), 1);

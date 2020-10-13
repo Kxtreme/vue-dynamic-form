@@ -17,9 +17,9 @@
                 </div>
             </div>
             <div v-for="c in content" :key="c.id">
-                <container v-if="c.type=='container'" :content="c.content" @selfDestroy="deleteFromContainer(c)" v-model="c.properties"/>
-                <text-input v-else-if="c.type=='textInput'" v-model="c.name" @selfDestroy="deleteFromContainer(c)"/>
-                <select-input v-else-if="c.type=='select'" :content="c.content" v-model="c.properties" @selfDestroy="deleteFromContainer(c)"/>
+                <container v-if="c.type=='container'" :content="c.content" :languages="languages" :selectedLanguage="selectedLanguage" @selfDestroy="deleteFromContainer(c)" v-model="c.properties"/>
+                <text-input v-else-if="c.type=='textInput'" :content="c.content" :languages="languages" :selectedLanguage="selectedLanguage" @selfDestroy="deleteFromContainer(c)"/>
+                <select-input v-else-if="c.type=='select'" :content="c.content" :languages="languages" :selectedLanguage="selectedLanguage" v-model="c.properties" @selfDestroy="deleteFromContainer(c)"/>
             </div>
             <span>
                 <a class="btn btn-default" @click="addContainer"><folder-plus-outline /></a>
@@ -44,6 +44,14 @@ import TextInput from './textInput.vue';
 import SelectInput from './select.vue';
 export default {
     props: {
+        languages: {
+            type: Array,
+            required: true
+        },
+        selectedLanguage: {
+            type: String,
+            required: true
+        },
         content: {
             type: Array,
             required: true
@@ -51,7 +59,7 @@ export default {
         isRoot: {
             type: Boolean,
             default: false
-        },
+        }
     },
     data() {
         return {
@@ -77,9 +85,10 @@ export default {
         addTextInput() {
             this.content.push({
                 type: 'textInput',
-                content: {
-                    name:''
-                },
+                content: this.languages.reduce((acc, cur) => {
+                    acc[cur] = ''
+                    return acc;
+                }, {}),
                 id: Utils.generateRandomId()
             })
         },
